@@ -20,6 +20,7 @@
 #include "buildtutorlia-config.h"
 
 #include<gtk/gtk.h>
+#include"sqlconn.h"
 
 //Initilize all widgets that the will be called upon
 
@@ -30,13 +31,15 @@ GtkWidget *NoteWindow;
 GtkWidget *sqlWindow;
 GtkWidget *dataOutput;
 
+int sql;
+
 int main(int argc, char **argv) {
 
 
   gtk_init (&argc, &argv);
 
-  builder = gtk_builder_new_from_file ("/home/chaff/Projects/buildtutorlia/src/mainwindow.glade");
-  sqlBuilder = gtk_builder_new_from_file ("/home/chaff/Projects/buildtutorlia/src/sqlbox.glade"); //TODO merge both glade files. This is for testing purposes only.
+  builder = gtk_builder_new_from_file ("/home/chaff/Projects/accounts/src/mainwindow.glade");//TODO create gresource xml and move out of main()
+  sqlBuilder = gtk_builder_new_from_file ("/home/chaff/Projects/accounts/src/sqlbox.glade"); //TODO merge both glade files. This is for testing purposes only.
 
   window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 
@@ -53,6 +56,9 @@ int main(int argc, char **argv) {
   NoteWindow = GTK_WIDGET (gtk_builder_get_object(builder, "text_window"));
   dataOutput = GTK_WIDGET(gtk_builder_get_object(sqlBuilder, "dataoutput"));
 
+  sql = sqlcon ();
+
+  printf("Version of libpq: %d\n", sql);
 
   gtk_widget_show_all(window);
   gtk_main();
@@ -92,4 +98,4 @@ void on_query_clicked()
 }
 
 
-
+                                     
